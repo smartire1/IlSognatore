@@ -20,3 +20,7 @@ Il frontend e' un sito statico realizzato con HTML, CSS, JavaScript e Bootstrap,
 Il sito non richiede compilazione: la cartella del progetto puo' essere pubblicata direttamente su Netlify.
 
 La chiave presente in `supabase-config.js` e' la chiave pubblica `anon`, necessaria al browser. La protezione dei dati dipende dalle policy RLS di Supabase.
+
+## Visita il Blog
+
+- https://ilsognatore.netlify.app/

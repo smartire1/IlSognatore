@@ -3,8 +3,10 @@ import { supabase } from "./supabase-config.js";
 // Configurazione sezioni
 const sections = [
   { category: "social", containerId: "social-links" },
+  { category: "music", containerId: "music-links" },
   { category: "project", containerId: "project-links" },
-  { category: "award", containerId: "award-links" }
+  { category: "award", containerId: "award-links" },
+  { category: "carlo", containerId: "carlo-links" }
 ];
 
 sections.forEach(section => loadLinks(section));

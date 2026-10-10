@@ -9,14 +9,18 @@ const postDescInput = document.getElementById("admin-post-description");
 const postImageInput = document.getElementById("admin-post-image");
 const postImagePreview = document.getElementById("admin-post-image-preview");
 const postLinkInput = document.getElementById("admin-post-link");
+const postSectionInput = document.getElementById("admin-post-section");
 const cancelPostBtn = document.getElementById("admin-cancel-post");
 const savePostBtn = document.getElementById("admin-save-post");
 const postFontSelect = document.getElementById("admin-post-font");
 const postColorInput = document.getElementById("admin-post-color");
 const editorButtons = document.querySelectorAll("[data-editor-command]");
+const postFilterButtons = document.querySelectorAll("[data-post-filter]");
 
 let editingPostId = null;
 let currentPostImageUrl = "";
+let loadedPosts = [];
+let currentPostFilter = "all";
 
 function getFilePathFromUrl(url) {
   if (!url) return null;
@@ -62,6 +66,7 @@ function resetPostForm() {
   postDescInput.innerHTML = "";
   postImageInput.value = "";
   postLinkInput.value = "";
+  postSectionInput.value = "home";
   currentPostImageUrl = "";
   editingPostId = null;
   updatePostImagePreview();
@@ -78,6 +83,7 @@ function openPostForm(post = null) {
     postTitleInput.value = post.title || "";
     postDescInput.innerHTML = post.description || "";
     postLinkInput.value = post.link || "";
+    postSectionInput.value = post.section || "home";
     currentPostImageUrl = post.image_url || "";
     postImageInput.value = "";
   } else {
@@ -173,7 +179,9 @@ async function savePost() {
   const title = postTitleInput.value.trim();
   const description = postDescInput.innerHTML.trim();
   const link = postLinkInput.value.trim();
+  const section = postSectionInput.value;
   let imageUrl = currentPostImageUrl;
+  let uploadedImageUrl = "";
 
   if (!title) {
     alert("Il titolo e obbligatorio");
@@ -182,11 +190,8 @@ async function savePost() {
 
   if (postImageInput.files.length > 0) {
     try {
-      if (currentPostImageUrl) {
-        await deleteOldImage(currentPostImageUrl);
-      }
-
       imageUrl = await uploadPostImage(postImageInput.files[0]);
+      uploadedImageUrl = imageUrl;
     } catch (error) {
       alert("Errore durante l'upload dell'immagine");
       return;
@@ -197,7 +202,8 @@ async function savePost() {
     title,
     description,
     image_url: imageUrl || null,
-    link: link || null
+    link: link || null,
+    section
   };
 
   if (editingPostId) {
@@ -208,8 +214,13 @@ async function savePost() {
 
     if (error) {
       console.error(error);
+      if (uploadedImageUrl) await deleteOldImage(uploadedImageUrl);
       alert("Errore durante la modifica del post");
       return;
+    }
+
+    if (uploadedImageUrl && currentPostImageUrl) {
+      await deleteOldImage(currentPostImageUrl);
     }
 
     alert("Post aggiornato");
@@ -220,6 +231,7 @@ async function savePost() {
 
     if (error) {
       console.error(error);
+      if (uploadedImageUrl) await deleteOldImage(uploadedImageUrl);
       alert("Errore durante l'aggiunta del post");
       return;
     }
@@ -231,20 +243,22 @@ async function savePost() {
   await loadPosts();
 }
 
-async function deletePost(id) {
+async function deletePost(post) {
   const confirmed = confirm("Sei sicuro di voler eliminare questo post?");
   if (!confirmed) return;
 
   const { error } = await supabase
     .from("posts")
     .delete()
-    .eq("id", id);
+    .eq("id", post.id);
 
   if (error) {
     console.error(error);
     alert("Errore durante l'eliminazione del post");
     return;
   }
+
+  if (post.image_url) await deleteOldImage(post.image_url);
 
   await loadPosts();
 }
@@ -263,7 +277,16 @@ async function loadPosts() {
     return;
   }
 
-  renderPosts(data || []);
+  loadedPosts = data || [];
+  renderFilteredPosts();
+}
+
+function renderFilteredPosts() {
+  const visiblePosts = currentPostFilter === "all"
+    ? loadedPosts
+    : loadedPosts.filter(post => (post.section || "home") === currentPostFilter);
+
+  renderPosts(visiblePosts);
 }
 
 function renderPosts(posts) {
@@ -271,7 +294,7 @@ function renderPosts(posts) {
 
   if (!posts.length) {
     postsListEl.innerHTML = `
-      <div class="card p-3 text-center text-muted">Nessun post disponibile</div>
+      <div class="card p-3 text-center text-muted admin-post-empty">Nessun post disponibile</div>
     `;
     return;
   }
@@ -280,25 +303,36 @@ function renderPosts(posts) {
 
   posts.forEach(post => {
     const card = document.createElement("div");
-    card.className = "card mb-2";
+    card.className = "card admin-post-card";
 
     card.innerHTML = `
-      <div class="card-body p-3">
-        <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
-          <div>
-            <h6 class="mb-1">${post.title}</h6>
-            <small class="text-muted">${new Date(post.created_at).toLocaleDateString("it-IT")}</small>
-          </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-secondary admin-post-edit">Modifica</button>
-            <button class="btn btn-sm btn-outline-danger admin-post-delete">Elimina</button>
-          </div>
+      <div class="admin-post-media">
+        ${post.image_url
+          ? `<img src="${post.image_url}" class="admin-post-thumbnail" alt="" loading="lazy">`
+          : `<div class="admin-post-thumbnail-placeholder"><i class="bi bi-card-text"></i></div>`}
+      </div>
+      <div class="card-body">
+        <h6 class="admin-post-card-title mb-1">${post.title}</h6>
+        <small class="text-muted mb-1">${new Date(post.created_at).toLocaleDateString("it-IT")}</small>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge text-bg-light">${post.section === "carlo" ? "Carlo" : "Home"}</span>
+          ${post.link ? `<i class="bi bi-link-45deg text-muted" title="Contiene un link"></i>` : ""}
         </div>
-        ${post.image_url ? `<div class="mb-3"><img src="${post.image_url}" class="img-fluid rounded" alt=""></div>` : ""}
-        <div class="mb-2 text-break rich-text-content">${post.description || ""}</div>
-        ${post.link ? `<a href="${post.link}" target="_blank" rel="noopener" class="text-decoration-none">Apri link</a>` : ""}
+        <div class="admin-post-card-actions">
+          <button class="btn btn-sm btn-outline-secondary admin-post-edit" type="button" title="Modifica" aria-label="Modifica post">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger admin-post-delete" type="button" title="Elimina" aria-label="Elimina post">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
       </div>
     `;
+
+    const thumbnail = card.querySelector(".admin-post-thumbnail");
+    thumbnail?.addEventListener("error", () => {
+      thumbnail.parentElement.innerHTML = '<div class="admin-post-thumbnail-placeholder"><i class="bi bi-card-text"></i></div>';
+    }, { once: true });
 
     card
       .querySelector(".admin-post-edit")
@@ -306,13 +340,25 @@ function renderPosts(posts) {
 
     card
       .querySelector(".admin-post-delete")
-      .addEventListener("click", () => deletePost(post.id));
+      .addEventListener("click", () => deletePost(post));
 
     postsListEl.appendChild(card);
   });
 }
 
 addPostBtn?.addEventListener("click", () => openPostForm());
+postFilterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    currentPostFilter = button.dataset.postFilter;
+    postFilterButtons.forEach(filterButton => {
+      const active = filterButton === button;
+      filterButton.classList.toggle("active", active);
+      filterButton.classList.toggle("btn-dark", active);
+      filterButton.classList.toggle("btn-outline-dark", !active);
+    });
+    renderFilteredPosts();
+  });
+});
 postImageInput?.addEventListener("change", updatePostImagePreview);
 cancelPostBtn?.addEventListener("click", closePostForm);
 savePostBtn?.addEventListener("click", savePost);

@@ -143,15 +143,12 @@
 
   <!-- APP ADMIN -->
   <div id="admin-app" class="d-none">
-    <!-- Contenitore app admin -->
-  </div>
-
   <!-- HEADER ADMIN (stesso stile del sito) -->
   <div class="logo-container py-4 position-relative" id="admin-header-container">
     <div class="container">
       <div class="d-flex align-items-center justify-content-center">
         <h1 class="brand-title me-3">Il Sognatore</h1>
-        <img src="img/logo.png" alt="Logo" class="brand-logo" id="admin-header-logo-el">
+        <img alt="Logo" class="brand-logo" id="admin-header-logo-el">
       </div>
     </div>
   </div>
@@ -260,6 +257,17 @@
               aria-label="Descrizione profilo"></div>
           </div>
 
+          <div class="mb-3 text-start">
+            <label for="admin-profile-video-url" class="form-label">Video YouTube della poesia</label>
+            <input
+              id="admin-profile-video-url"
+              type="url"
+              class="form-control"
+              inputmode="url"
+              placeholder="https://youtu.be/...">
+            <div class="form-text">Incolla il link del video YouTube. Lascia vuoto per non mostrarlo.</div>
+          </div>
+
           <!-- SALVA -->
           <button
             id="admin-save-profile"
@@ -280,12 +288,26 @@
         + Nuovo post
       </button>
 
+      <div class="admin-post-filters" aria-label="Filtra post per sezione">
+        <button type="button" class="btn btn-dark btn-sm active" data-post-filter="all">Tutti</button>
+        <button type="button" class="btn btn-outline-dark btn-sm" data-post-filter="home">Home</button>
+        <button type="button" class="btn btn-outline-dark btn-sm" data-post-filter="carlo">Carlo</button>
+      </div>
+
       <div id="admin-post-form" class="card mb-3 d-none">
         <div class="card-body">
           <h6 id="admin-post-form-title" class="mb-3">Aggiungi nuovo post</h6>
 
           <div class="mb-3">
             <input id="admin-post-title" type="text" class="form-control" placeholder="Titolo">
+          </div>
+
+          <div class="mb-3">
+            <label for="admin-post-section" class="form-label">Pubblica nella sezione</label>
+            <select id="admin-post-section" class="form-select">
+              <option value="home">Home</option>
+              <option value="carlo">Dedicata a Carlo Acutis</option>
+            </select>
           </div>
 
           <div class="mb-3">
@@ -329,14 +351,14 @@
             <input id="admin-post-link" type="url" class="form-control" placeholder="Link post (opzionale)">
           </div>
 
-          <div class="d-flex gap-2">
+          <div class="d-flex gap-2 admin-post-actions">
             <button id="admin-cancel-post" type="button" class="btn btn-outline-secondary flex-grow-1">Annulla</button>
             <button id="admin-save-post" type="button" class="btn btn-dark flex-grow-1">Salva</button>
           </div>
         </div>
       </div>
 
-      <div id="admin-posts-list" class="d-grid gap-3"></div>
+      <div id="admin-posts-list" class="admin-post-grid"></div>
     </section>
 
     <!-- NETWORK -->
@@ -345,8 +367,10 @@
 
       <div class="admin-category-buttons">
         <button type="button" data-category="social" class="active">Social</button>
+        <button type="button" data-category="music">Musica</button>
         <button type="button" data-category="project">Progetti</button>
         <button type="button" data-category="award">Premi</button>
+        <button type="button" data-category="carlo">Carlo</button>
       </div>
 
       <button id="admin-add-link-btn" class="btn btn-dark w-100 mb-3">
@@ -442,6 +466,8 @@
     </section>
 
   </main>
+
+  </div>
 
   <!-- JS MINIMO: cambio vista -->
   <script>

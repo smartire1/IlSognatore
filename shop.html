@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Shop | Il Sognatore</title>
+  <meta name="description" content="Scopri i libri di Pietro Sorrentino e come acquistare L'Acchiappasogni.">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Libri di Pietro Sorrentino">
+  <meta property="og:description" content="Scopri i libri di Pietro Sorrentino e come acquistare L'Acchiappasogni.">
+  <meta property="og:image" content="https://qadixyjmrripwurzwokt.supabase.co/storage/v1/object/public/imgIlsognatore/lacchiappasogni.jpg">
 
   <link href="css/style.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,7 +25,7 @@
       <div class="d-flex align-items-center justify-content-center">
         <h1 class="brand-title me-3">Il Sognatore</h1>
         <a href="index.html">
-          <img src="img/logo.png" alt="Logo" class="brand-logo">
+          <img alt="Logo" class="brand-logo">
         </a>
       </div>
     </div>
@@ -31,15 +37,15 @@
     <div class="row justify-content-center">
       <div class="col-11 col-sm-10 col-md-7 col-lg-5">
         <div class="shop-note mb-4">
-          <strong>Come leggere gli ebook Amazon Kindle</strong>
+          <strong>Come leggere l'eBook con Kobo</strong>
           <p class="mb-0">
-            L'ebook si acquista su Amazon e si legge tramite l'app Amazon Kindle,
+            L'eBook si acquista su Rakuten Kobo e si legge con l'app Kobo Books,
             disponibile per smartphone, tablet e computer.
             <button
               type="button"
               class="btn btn-link btn-sm p-0 align-baseline"
               data-bs-toggle="modal"
-              data-bs-target="#kindle-guide-modal">
+              data-bs-target="#kobo-guide-modal">
               Scopri di piu
             </button>
           </p>
@@ -50,21 +56,21 @@
     <div id="shop-items-container"></div>
   </main>
 
-  <div class="modal fade" id="kindle-guide-modal" tabindex="-1" aria-labelledby="kindle-guide-title" aria-hidden="true">
+  <div class="modal fade" id="kobo-guide-modal" tabindex="-1" aria-labelledby="kobo-guide-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="kindle-guide-title">Guida rapida all'acquisto di eBook Kindle su Amazon</h5>
+          <h5 class="modal-title" id="kobo-guide-title">Guida rapida all'acquisto dell'eBook</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
         </div>
         <div class="modal-body">
           <ol>
-            <li>Vai su amazon.it e accedi con il tuo account Amazon.</li>
-            <li>Cerca l'eBook che desideri acquistare digitando: "L'Acchiappasogni" di Pietro Sorrentino.</li>
-            <li>Nella pagina del libro, verifica che sia disponibile in formato Kindle.</li>
-            <li>Installa l'app Amazon Kindle da Google Play Store o Apple Store su smartphone, tablet o computer, selezionalo come destinazione di consegna.</li>
-            <li>Clicca su "Acquista ora con 1-Click".</li>
-            <li>Dopo l'acquisto, l'eBook verra aggiunto automaticamente alla tua libreria Kindle e sara disponibile per la lettura sull'app associata al tuo account.</li>
+            <li>Vai su <a href="https://www.kobo.com/it/it" target="_blank" rel="noopener">Rakuten Kobo</a> e accedi con il tuo account Kobo.</li>
+            <li>Cerca l'eBook digitando: "L'Acchiappasogni" di Pietro Sorrentino.</li>
+            <li>Acquista l'eBook.</li>
+            <li>Scarica gratuitamente l'app Kobo Books dal Google Play Store, dall'Apple App Store o sul tuo computer.</li>
+            <li>Accedi all'app con lo stesso account Kobo utilizzato per l'acquisto.</li>
+            <li>Il libro apparira automaticamente nella tua libreria. Tocca la copertina per iniziare la lettura.</li>
           </ol>
 
           <p class="mb-1">Per acquistare la versione cartacea, contattami:</p>
@@ -77,21 +83,14 @@
             <a href="https://wa.me/393911082096" target="_blank" rel="noopener">+39 391 108 2096</a>
           </p>
 
-          <h6 class="mt-4">Come utilizzare l'app Kindle</h6>
-          <ol>
-            <li>Dopo l'accesso, la tua libreria Kindle verra sincronizzata automaticamente.</li>
-            <li>Tocca la copertina del libro per iniziare la lettura.</li>
-            <li>
-              Durante la lettura puoi:
-              <ul>
-                <li>modificare la dimensione del testo;</li>
-                <li>cambiare il tipo di carattere;</li>
-                <li>regolare luminosita e colore dello sfondo;</li>
-                <li>aggiungere segnalibri o evidenziazioni.</li>
-              </ul>
-            </li>
-            <li>La posizione di lettura viene salvata automaticamente e sincronizzata tra tutti i tuoi dispositivi.</li>
-          </ol>
+          <h6 class="mt-4">Durante la lettura puoi</h6>
+          <ul>
+            <li>modificare la dimensione del testo;</li>
+            <li>cambiare il tipo di carattere;</li>
+            <li>regolare la luminosita e il colore dello sfondo;</li>
+            <li>aggiungere segnalibri ed evidenziazioni.</li>
+          </ul>
+          <p class="mb-0">La posizione di lettura viene salvata automaticamente e sincronizzata su tutti i tuoi dispositivi.</p>
         </div>
       </div>
     </div>
@@ -101,14 +100,7 @@
   <script type="module" src="js/header.js"></script>
   <script type="module" src="js/footer.js"></script>
 
-  <script>
-    fetch("navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar-placeholder").innerHTML = data;
-      });
-  </script>
-
+  <script type="module" src="js/navbar.js"></script>
   <script type="module" src="js/shop.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

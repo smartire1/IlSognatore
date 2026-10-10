@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galleria | Il Sognatore</title>
+  <meta name="description" content="La raccolta fotografica dei post di Pietro Sorrentino.">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Galleria | Il Sognatore">
+  <meta property="og:description" content="La raccolta fotografica dei post di Pietro Sorrentino.">
+  <meta property="og:image" content="https://qadixyjmrripwurzwokt.supabase.co/storage/v1/object/public/imgIlsognatore/lacchiappasogni.jpg">
+
+  <link href="css/style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra+Display&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <header class="logo-container py-4">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-center">
+        <h1 class="brand-title me-3">Il Sognatore</h1>
+        <a href="index.html">
+          <img alt="Logo" class="brand-logo">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="navbar-placeholder"></div>
+
+  <main class="container py-4">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Galleria</h2>
+      <p class="text-muted mb-0">Le immagini pubblicate nei post.</p>
+    </div>
+
+    <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
+    <div id="gallery-message" class="text-center text-muted py-4"></div>
+    <div class="text-center mt-4">
+      <button id="gallery-load-more" class="btn btn-dark d-none" type="button">Carica altre</button>
+    </div>
+  </main>
+
+  <div class="modal fade" id="gallery-modal" tabindex="-1" aria-labelledby="gallery-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="gallery-modal-title"></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+        </div>
+        <div class="modal-body bg-dark p-2">
+          <img id="gallery-modal-image" class="gallery-modal-image" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <site-footer></site-footer>
+  <script type="module" src="js/header.js"></script>
+  <script type="module" src="js/navbar.js"></script>
+  <script type="module" src="js/footer.js"></script>
+  <script type="module" src="js/gallery.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

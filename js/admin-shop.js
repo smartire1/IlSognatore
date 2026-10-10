@@ -120,6 +120,7 @@ async function saveShopItem() {
   const description = shopItemDescInput.value.trim();
   const link = shopItemLinkInput.value.trim();
   let imageUrl = currentShopItemImageUrl;
+  let uploadedImageUrl = "";
 
   if (!title) {
     alert("Il titolo e obbligatorio");
@@ -128,11 +129,8 @@ async function saveShopItem() {
 
   if (shopItemImageInput.files.length > 0) {
     try {
-      if (currentShopItemImageUrl) {
-        await deleteOldImage(currentShopItemImageUrl);
-      }
-
       imageUrl = await uploadShopItemImage(shopItemImageInput.files[0]);
+      uploadedImageUrl = imageUrl;
     } catch (error) {
       alert("Errore durante l'upload dell'immagine");
       return;
@@ -154,8 +152,13 @@ async function saveShopItem() {
 
     if (error) {
       console.error(error);
+      if (uploadedImageUrl) await deleteOldImage(uploadedImageUrl);
       alert("Errore durante la modifica del libro");
       return;
+    }
+
+    if (uploadedImageUrl && currentShopItemImageUrl) {
+      await deleteOldImage(currentShopItemImageUrl);
     }
 
     alert("Libro aggiornato");
@@ -166,6 +169,7 @@ async function saveShopItem() {
 
     if (error) {
       console.error(error);
+      if (uploadedImageUrl) await deleteOldImage(uploadedImageUrl);
       alert("Errore durante l'aggiunta del libro");
       return;
     }
@@ -177,20 +181,22 @@ async function saveShopItem() {
   await loadShopItems();
 }
 
-async function deleteShopItem(id) {
+async function deleteShopItem(item) {
   const confirmed = confirm("Sei sicuro di voler eliminare questo libro?");
   if (!confirmed) return;
 
   const { error } = await supabase
     .from("shop_items")
     .delete()
-    .eq("id", id);
+    .eq("id", item.id);
 
   if (error) {
     console.error(error);
     alert("Errore durante l'eliminazione del libro");
     return;
   }
+
+  if (item.image_url) await deleteOldImage(item.image_url);
 
   await loadShopItems();
 }
@@ -252,7 +258,7 @@ function renderShopItems(items) {
 
     card
       .querySelector(".admin-shop-item-delete")
-      .addEventListener("click", () => deleteShopItem(item.id));
+      .addEventListener("click", () => deleteShopItem(item));
 
     shopItemsListEl.appendChild(card);
   });

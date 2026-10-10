@@ -30,8 +30,10 @@ const platformIconMap = {
 };
 
 const categoryIconMap = {
+  music: "bi-music-note-beamed",
   project: "bi-book",
-  award: "bi-award"
+  award: "bi-award",
+  carlo: "bi-link-45deg"
 };
 
 let currentCategory = "social";
@@ -210,6 +212,7 @@ async function saveLink() {
       ? getIconForPlatform(platform)
       : getIconForCategory(currentCategory);
   let iconUrl = currentIconUrl;
+  let uploadedIconUrl = "";
 
   if (!title || !url) {
     alert("Titolo e URL sono obbligatori");
@@ -218,11 +221,8 @@ async function saveLink() {
 
   if (iconFileInput.files.length > 0) {
     try {
-      if (currentIconUrl) {
-        await deleteOldIcon(currentIconUrl);
-      }
-
       iconUrl = await uploadCustomIcon(iconFileInput.files[0]);
+      uploadedIconUrl = iconUrl;
     } catch (error) {
       alert(error.message || "Errore durante l'upload dell'icona");
       return;
@@ -243,8 +243,13 @@ async function saveLink() {
 
     if (error) {
       console.error(error);
+      if (uploadedIconUrl) await deleteOldIcon(uploadedIconUrl);
       alert("Errore durante la modifica del link");
       return;
+    }
+
+    if (uploadedIconUrl && currentIconUrl) {
+      await deleteOldIcon(currentIconUrl);
     }
 
     alert("Link aggiornato");
@@ -267,6 +272,7 @@ async function saveLink() {
 
     if (error) {
       console.error(error);
+      if (uploadedIconUrl) await deleteOldIcon(uploadedIconUrl);
       alert("Errore durante l'aggiunta del link");
       return;
     }
@@ -278,20 +284,22 @@ async function saveLink() {
   await loadLinks(currentCategory);
 }
 
-async function deleteLink(id) {
+async function deleteLink(link) {
   const confirmed = confirm("Sei sicuro di voler eliminare questo link?");
   if (!confirmed) return;
 
   const { error } = await supabase
     .from("links")
-    .update({ active: false })
-    .eq("id", id);
+    .delete()
+    .eq("id", link.id);
 
   if (error) {
     console.error(error);
     alert("Errore durante l'eliminazione del link");
     return;
   }
+
+  if (link.icon_url) await deleteOldIcon(link.icon_url);
 
   await loadLinks(currentCategory);
 }
@@ -371,7 +379,7 @@ function renderLinks(links) {
 
     deleteBtn.addEventListener("click", e => {
       e.stopPropagation();
-      deleteLink(link.id);
+      deleteLink(link);
       menu.style.display = "none";
     });
 

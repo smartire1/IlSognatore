@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Network | Il Sognatore</title>
+  <meta name="description" content="Social, musica e progetti di Pietro Sorrentino.">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Network | Pietro Sorrentino">
+  <meta property="og:description" content="Social, musica e progetti di Pietro Sorrentino.">
+  <meta property="og:image" content="https://qadixyjmrripwurzwokt.supabase.co/storage/v1/object/public/imgIlsognatore/lacchiappasogni.jpg">
 
   <link href="css/style.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,7 +25,7 @@
       <div class="d-flex align-items-center justify-content-center">
         <h1 class="brand-title me-3">Il Sognatore</h1>
         <a href="index.html">
-          <img src="img/logo.png" alt="Logo" class="brand-logo">
+          <img alt="Logo" class="brand-logo">
         </a>
       </div>
     </div>
@@ -28,11 +34,7 @@
   <div id="navbar-placeholder"></div>
 
   <div class="container text-center py-4">
-    <div class="network-tags text-muted">
-      <div>Poeta ✒️</div>
-      <div>Scrittore 🖊️</div>
-      <div>Songwriter 🎼</div>
-    </div>
+    <p class="network-quote text-muted mb-0">«Dove finiscono i sogni? Io li raccolgo, li scrivo, e li restituisco a chi ha il coraggio di leggerli.»</p>
   </div>
 
   <main class="container">
@@ -42,6 +44,11 @@
         <section class="mb-4">
           <h6 class="text-uppercase text-muted mb-2">Social</h6>
           <div id="social-links"></div>
+        </section>
+
+        <section class="mb-4">
+          <h6 class="text-uppercase text-muted mb-2">Musica</h6>
+          <div id="music-links"></div>
         </section>
 
         <section class="mb-4">
@@ -57,14 +64,7 @@
   <script type="module" src="js/header.js"></script>
   <script type="module" src="js/footer.js"></script>
 
-  <script>
-    fetch("navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar-placeholder").innerHTML = data;
-      });
-  </script>
-
+  <script type="module" src="js/navbar.js"></script>
   <script type="module" src="js/links.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>

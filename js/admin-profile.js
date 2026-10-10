@@ -14,6 +14,7 @@ const changeHeaderBgBtn = document.getElementById("admin-change-header-bg");
 const profileFontSelect = document.getElementById("admin-profile-font");
 const profileColorInput = document.getElementById("admin-profile-color");
 const profileEditorButtons = document.querySelectorAll("[data-profile-editor-command]");
+const profileVideoUrlInput = document.getElementById("admin-profile-video-url");
 
 let currentImageUrl = null;
 let currentHeaderLogoUrl = null;
@@ -53,12 +54,17 @@ async function loadProfile() {
     return;
   }
 
-  imgEl.src = data.image_url + "?t=" + Date.now();
+  if (data.image_url) imgEl.src = data.image_url;
   descEl.innerHTML = data.description || "";
+  profileVideoUrlInput.value = data.video_url || "";
   currentImageUrl = data.image_url;
 
   if (headerLogoEl) {
-    headerLogoEl.src = data.header_logo_url || "img/logo.png";
+    if (data.header_logo_url) {
+      headerLogoEl.src = data.header_logo_url;
+      headerLogoEl.addEventListener("load", () => headerLogoEl.classList.add("is-loaded"), { once: true });
+      if (headerLogoEl.complete) headerLogoEl.classList.add("is-loaded");
+    }
   }
   currentHeaderLogoUrl = data.header_logo_url || null;
 
@@ -200,30 +206,25 @@ function updateProfileToolbarState() {
 }
 
 saveBtn?.addEventListener("click", async () => {
+  const previousImageUrl = currentImageUrl;
+  const previousHeaderLogoUrl = currentHeaderLogoUrl;
+  const previousHeaderBackgroundUrl = currentHeaderBackgroundUrl;
   let imageUrl = currentImageUrl;
   let headerLogoUrl = currentHeaderLogoUrl;
   let headerBgUrl = currentHeaderBackgroundUrl;
 
   if (fileInput.files.length > 0) {
-    if (currentImageUrl) {
-      await deleteOldImage(currentImageUrl);
-    }
-
     imageUrl = await uploadImage(
       fileInput.files[0],
-      `profile.${getFileExtension(fileInput.files[0])}`
+      `profile/${Date.now()}-profile.${getFileExtension(fileInput.files[0])}`
     );
     imgEl.src = imageUrl + "?t=" + Date.now();
   }
 
   if (headerLogoInput.files.length > 0) {
-    if (currentHeaderLogoUrl) {
-      await deleteOldImage(currentHeaderLogoUrl);
-    }
-
     headerLogoUrl = await uploadImage(
       headerLogoInput.files[0],
-      `header-logo.${getFileExtension(headerLogoInput.files[0])}`
+      `header/${Date.now()}-logo.${getFileExtension(headerLogoInput.files[0])}`
     );
 
     if (headerLogoEl) {
@@ -232,13 +233,9 @@ saveBtn?.addEventListener("click", async () => {
   }
 
   if (headerBackgroundInput.files.length > 0) {
-    if (currentHeaderBackgroundUrl) {
-      await deleteOldImage(currentHeaderBackgroundUrl);
-    }
-
     headerBgUrl = await uploadImage(
       headerBackgroundInput.files[0],
-      `header-bg.${getFileExtension(headerBackgroundInput.files[0])}`
+      `header/${Date.now()}-background.${getFileExtension(headerBackgroundInput.files[0])}`
     );
 
     if (headerBgContainer) {
@@ -249,6 +246,7 @@ saveBtn?.addEventListener("click", async () => {
   const updateData = {
     description: descEl.innerHTML.trim(),
     image_url: imageUrl,
+    video_url: profileVideoUrlInput.value.trim() || null,
     updated_at: new Date()
   };
 
@@ -270,6 +268,20 @@ saveBtn?.addEventListener("click", async () => {
     alert("Errore nel salvataggio");
     return;
   }
+
+  if (fileInput.files.length > 0 && previousImageUrl) {
+    await deleteOldImage(previousImageUrl);
+  }
+  if (headerLogoInput.files.length > 0 && previousHeaderLogoUrl) {
+    await deleteOldImage(previousHeaderLogoUrl);
+  }
+  if (headerBackgroundInput.files.length > 0 && previousHeaderBackgroundUrl) {
+    await deleteOldImage(previousHeaderBackgroundUrl);
+  }
+
+  currentImageUrl = imageUrl;
+  currentHeaderLogoUrl = headerLogoUrl;
+  currentHeaderBackgroundUrl = headerBgUrl;
 
   alert("Profilo aggiornato");
 });

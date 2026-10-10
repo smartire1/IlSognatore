@@ -8,6 +8,8 @@ Il frontend e' un sito statico realizzato con HTML, CSS, JavaScript e Bootstrap,
 
 - `index.html`: post pubblici
 - `shop.html`: libri e guida all'acquisto
+- `gallery.html`: raccolta delle immagini pubblicate nei post
+- `carlo-acutis.html`: post e link dedicati a Carlo Acutis
 - `me.html`: biografia e riconoscimenti
 - `network.html`: social e progetti
 - `admin.html`: gestione dei contenuti
@@ -18,5 +20,3 @@ Il frontend e' un sito statico realizzato con HTML, CSS, JavaScript e Bootstrap,
 Il sito non richiede compilazione: la cartella del progetto puo' essere pubblicata direttamente su Netlify.
 
 La chiave presente in `supabase-config.js` e' la chiave pubblica `anon`, necessaria al browser. La protezione dei dati dipende dalle policy RLS di Supabase.
-
-I file nella cartella `sql` sono un archivio degli script usati durante lo sviluppo e non costituiscono migrazioni complete da eseguire in sequenza.

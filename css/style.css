@@ -42,12 +42,15 @@ p, h5, h4 {
   padding-top: 20px;
   padding-bottom: 20px;
 
-  background-image: url("/img/bg.jpeg");
+  background-color: #c8d2cf;
+  background-image: none;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
   position: relative;
+  min-height: 178px;
+  transition: background-image 0.2s ease;
 }
 
 .logo-container img {
@@ -70,10 +73,59 @@ p, h5, h4 {
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.brand-logo.is-loaded {
+  opacity: 1;
+}
+
+.site-role-strip {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: var(--bs-tertiary-bg);
+  color: #4a3733;
+  font-family: "Garamond", serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  padding: 7px 12px 9px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.site-menu-toggle {
+  align-items: center;
+  gap: 8px;
+  margin-block: 8px;
+  min-height: 44px;
+  padding-inline: 12px;
+}
+
+.site-menu-toggle .navbar-toggler-icon {
+  width: 1.35em;
+  height: 1.35em;
+}
+
+.site-menu-label {
+  font-family: "Garamond", serif;
+  font-size: 1rem;
+}
+
+@media (max-width: 991.98px) {
+  .site-menu-toggle {
+    display: flex;
+    margin-inline: auto;
+  }
 }
 
 /* Mobile header */
 @media (max-width: 768px) {
+  .logo-container {
+    min-height: 118px;
+  }
+
   .brand-title {
     font-size: 1.6rem;
     color: #DEE5E3;
@@ -82,6 +134,19 @@ p, h5, h4 {
      -1px 0 black,
       0 1px black,
       0 -1px black;
+  }
+
+  .logo-container img,
+  .brand-logo {
+    width: 82px;
+    height: 82px;
+  }
+
+  .navbar .nav-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -103,10 +168,41 @@ p, h5, h4 {
   display: block;
 }
 
+.post-card {
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.post-link-button {
+  border-color: #212529;
+  color: #212529;
+}
+
+.post-link-button:hover,
+.post-link-button:focus {
+  background-color: #212529;
+  border-color: #212529;
+  color: #ffffff;
+}
+
+.posts-status {
+  max-width: 520px;
+  margin: 32px auto;
+  padding-inline: 16px;
+  text-align: center;
+}
+
 /* ================= PROFILE ================= */
 
 .profile-img {
   max-width: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.profile-img.is-loaded {
+  opacity: 1;
 }
 
 /* ================= NETWORK (PUBBLICO) ================= */
@@ -157,6 +253,81 @@ p, h5, h4 {
   font-family: "Garamond", serif;
   font-size: 1.15rem;
   line-height: 1.7;
+}
+
+.network-quote {
+  max-width: 680px;
+  margin-inline: auto;
+  font-family: "Garamond", serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ================= GALLERY ================= */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gallery-item {
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-caption {
+  display: block;
+  padding: 8px;
+  color: #212529;
+  font-family: "Garamond", serif;
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.gallery-modal-image {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ================= PROFILE VIDEO ================= */
+
+.profile-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 8px;
+  background: #000000;
 }
 
 /* ================= FOOTER ================= */
@@ -369,12 +540,14 @@ p, h5, h4 {
 
 .admin-category-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 12px;
 }
 
 .admin-category-buttons button {
-  flex: 1;
+  flex: 1 1 96px;
+  min-height: 42px;
   padding: 6px 0;
   border: none;
   border-radius: 20px;
@@ -382,8 +555,116 @@ p, h5, h4 {
   font-family: "Garamond", serif;
 }
 
+@media (max-width: 575.98px) {
+  .admin-editor-toolbar {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
+  .admin-editor-toolbar .btn {
+    min-width: 44px;
+  }
+
+  .admin-post-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .admin-post-actions .btn {
+    min-height: 42px;
+  }
+}
+
 .admin-category-buttons button.active {
   background: #4a3733;
   color: #fff;
+}
+
+/* ================= ADMIN POSTS ================= */
+
+.admin-post-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.admin-post-filters .btn {
+  min-height: 42px;
+}
+
+.admin-post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.admin-post-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.admin-post-thumbnail,
+.admin-post-thumbnail-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.admin-post-thumbnail {
+  display: block;
+  object-fit: cover;
+}
+
+.admin-post-thumbnail-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f3f5;
+  color: #6c757d;
+  font-size: 1.5rem;
+}
+
+.admin-post-card .card-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 142px;
+  padding: 10px;
+}
+
+.admin-post-card-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 0.98rem;
+  line-height: 1.25;
+}
+
+.admin-post-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.admin-post-card-actions .btn {
+  min-height: 40px;
+}
+
+.admin-post-empty {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .admin-post-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .admin-post-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 

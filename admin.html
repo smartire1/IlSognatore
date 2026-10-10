@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Il Sognatore</title>
+
+  <link href="css/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra+Display&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+  <style>
+    .image-upload-wrapper {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+      width: 100%;
+      border-radius: .5rem;
+      overflow: hidden;
+      min-height: 200px;
+      background-color: #f8f9fa;
+    }
+
+    .image-upload-wrapper img,
+    .image-upload-wrapper .header-bg-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-upload-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .image-upload-wrapper:hover .image-upload-overlay {
+      opacity: 1;
+    }
+
+    .image-upload-overlay .overlay-text {
+      display: inline-block;
+    }
+
+    .image-upload-overlay i {
+      font-size: 1.5rem;
+    }
+
+    #admin-header-logo-el {
+      border-radius: 50%;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    #admin-header-container {
+      cursor: pointer;
+    }
+
+    .admin-tabs {
+      overflow-x: auto;
+      padding-inline: 12px;
+      white-space: nowrap;
+    }
+
+    .admin-profile-image-frame {
+      width: 220px;
+      height: 220px;
+      min-height: 220px;
+      margin-inline: auto;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+    }
+
+    .admin-profile-image-frame img {
+      border-radius: 50%;
+      min-height: 0 !important;
+    }
+
+    .admin-image-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .admin-editor-toolbar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 8px;
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-bottom: 0;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .admin-editor-toolbar .btn,
+    .admin-editor-toolbar .form-select,
+    .admin-editor-toolbar .form-control {
+      flex: 0 0 auto;
+      min-height: 38px;
+    }
+
+    .admin-editor-toolbar .form-select {
+      width: 132px;
+    }
+
+    .admin-editor-toolbar .form-control-color {
+      width: 44px;
+      padding: 4px;
+    }
+
+    .admin-editor-toolbar .btn.active {
+      background-color: #4a3733;
+      border-color: #4a3733;
+      color: #ffffff;
+    }
+
+    #admin-post-description {
+      border-radius: 0 0 8px 8px;
+    }
+
+    @media (min-width: 576px) {
+      .admin-image-actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- APP ADMIN -->
+  <div id="admin-app" class="d-none">
+    <!-- Contenitore app admin -->
+  </div>
+
+  <!-- HEADER ADMIN (stesso stile del sito) -->
+  <div class="logo-container py-4 position-relative" id="admin-header-container">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-center">
+        <h1 class="brand-title me-3">Il Sognatore</h1>
+        <img src="img/logo.png" alt="Logo" class="brand-logo" id="admin-header-logo-el">
+      </div>
+    </div>
+  </div>
+
+        <!-- NAV ADMIN (tabs) -->
+      <div class="d-flex justify-content-center mt-3 gap-2 admin-tabs">
+        <button class="btn btn-outline-dark btn-sm admin-tab active" data-view="profile">
+          Chi sono
+        </button>
+        <button class="btn btn-outline-dark btn-sm admin-tab" data-view="posts">
+          Post
+        </button>
+        <button class="btn btn-outline-dark btn-sm admin-tab" data-view="network">
+          Network
+        </button>
+        <button class="btn btn-outline-dark btn-sm admin-tab" data-view="shop">
+          Shop
+        </button>
+        <button id="logout-btn" class="btn btn-sm btn-danger ms-3">
+          <i class="bi bi-box-arrow-right me-1"></i>Logout
+        </button>
+      </div>
+
+      <hr>
+
+  <!-- CONTENUTO DINAMICO -->
+  <main class="container my-4">
+
+    <!-- CHI SONO -->
+    <section id="view-profile" class="admin-view">
+
+      <div class="card">
+        <div class="card-body text-center">
+
+          <!-- IMMAGINE PROFILO -->
+          <div id="admin-profile-image-wrapper" class="image-upload-wrapper admin-profile-image-frame mb-3">
+            <img
+              id="admin-profile-image"
+              src=""
+              class="img-fluid"
+              alt="Foto profilo">
+            <div class="image-upload-overlay">
+              <div class="overlay-text">
+                <i class="bi bi-pencil-square"></i>
+                <div class="small mt-2">Clicca per modificare</div>
+              </div>
+            </div>
+          </div>
+
+          <input
+            type="file"
+            id="admin-profile-image-input"
+            class="d-none"
+            accept="image/*">
+
+          <input
+            type="file"
+            id="admin-header-logo-input"
+            class="d-none"
+            accept="image/*">
+
+          <input
+            type="file"
+            id="admin-header-background-input"
+            class="d-none"
+            accept="image/*">
+
+          <div class="admin-image-actions mb-3">
+            <button id="admin-change-header-logo" type="button" class="btn btn-outline-secondary btn-sm">
+              Cambia logo tondo
+            </button>
+            <button id="admin-change-header-bg" type="button" class="btn btn-outline-secondary btn-sm">
+              Cambia sfondo header
+            </button>
+          </div>
+
+          <!-- DESCRIZIONE -->
+          <div class="mb-3 text-start">
+            <div class="admin-editor-toolbar" aria-label="Strumenti descrizione profilo">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-profile-editor-command="bold" aria-label="Grassetto">
+                <i class="bi bi-type-bold"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-profile-editor-command="italic" aria-label="Corsivo">
+                <i class="bi bi-type-italic"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-profile-editor-command="list" aria-label="Elenco puntato">
+                <i class="bi bi-list-ul"></i>
+              </button>
+              <select id="admin-profile-font" class="form-select form-select-sm" aria-label="Font">
+                <option value="">Font</option>
+                <option value="Garamond, serif">Garamond</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Courier New', monospace">Courier</option>
+              </select>
+              <input id="admin-profile-color" type="color" class="form-control form-control-color" value="#4a3733" aria-label="Colore testo">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-profile-editor-command="color" aria-label="Colore">
+                Colore
+              </button>
+            </div>
+            <div
+              id="admin-profile-description"
+              class="form-control admin-rich-editor"
+              contenteditable="true"
+              role="textbox"
+              aria-label="Descrizione profilo"></div>
+          </div>
+
+          <!-- SALVA -->
+          <button
+            id="admin-save-profile"
+            class="btn btn-dark w-100">
+            Salva modifiche
+          </button>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- POST -->
+    <section id="view-posts" class="admin-view d-none">
+      <h5 class="mb-3">Post</h5>
+
+      <button id="admin-add-post-btn" class="btn btn-dark w-100 mb-3">
+        + Nuovo post
+      </button>
+
+      <div id="admin-post-form" class="card mb-3 d-none">
+        <div class="card-body">
+          <h6 id="admin-post-form-title" class="mb-3">Aggiungi nuovo post</h6>
+
+          <div class="mb-3">
+            <input id="admin-post-title" type="text" class="form-control" placeholder="Titolo">
+          </div>
+
+          <div class="mb-3">
+            <div class="admin-editor-toolbar" aria-label="Strumenti descrizione post">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-editor-command="bold" aria-label="Grassetto">
+                <i class="bi bi-type-bold"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-editor-command="italic" aria-label="Corsivo">
+                <i class="bi bi-type-italic"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-editor-command="list" aria-label="Elenco puntato">
+                <i class="bi bi-list-ul"></i>
+              </button>
+              <select id="admin-post-font" class="form-select form-select-sm" aria-label="Font">
+                <option value="">Font</option>
+                <option value="Garamond, serif">Garamond</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Courier New', monospace">Courier</option>
+              </select>
+              <input id="admin-post-color" type="color" class="form-control form-control-color" value="#4a3733" aria-label="Colore testo">
+              <button type="button" class="btn btn-outline-secondary btn-sm" data-editor-command="color" aria-label="Colore">
+                Colore
+              </button>
+            </div>
+            <div
+              id="admin-post-description"
+              class="form-control admin-rich-editor"
+              contenteditable="true"
+              role="textbox"
+              aria-label="Descrizione post"></div>
+            <div class="form-text">Tocca uno strumento e continua a scrivere: vedrai subito lo stile applicato.</div>
+          </div>
+
+          <div class="mb-3">
+            <input id="admin-post-image" type="file" class="form-control" accept="image/*">
+            <div id="admin-post-image-preview" class="mt-2"></div>
+          </div>
+
+          <div class="mb-3">
+            <input id="admin-post-link" type="url" class="form-control" placeholder="Link post (opzionale)">
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="admin-cancel-post" type="button" class="btn btn-outline-secondary flex-grow-1">Annulla</button>
+            <button id="admin-save-post" type="button" class="btn btn-dark flex-grow-1">Salva</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="admin-posts-list" class="d-grid gap-3"></div>
+    </section>
+
+    <!-- NETWORK -->
+    <section id="view-network" class="admin-view d-none">
+      <h5 class="mb-3">Network</h5>
+
+      <div class="admin-category-buttons">
+        <button type="button" data-category="social" class="active">Social</button>
+        <button type="button" data-category="project">Progetti</button>
+        <button type="button" data-category="award">Premi</button>
+      </div>
+
+      <button id="admin-add-link-btn" class="btn btn-dark w-100 mb-3">
+        + Nuovo link
+      </button>
+
+      <div id="admin-link-form" class="card mb-3 d-none">
+        <div class="card-body">
+          <h6 id="admin-link-form-title" class="mb-3">Aggiungi nuovo link</h6>
+
+          <div class="mb-2">
+            <input id="admin-link-title" type="text" class="form-control" placeholder="Titolo">
+          </div>
+
+          <div class="mb-2">
+            <input id="admin-link-subtitle" type="text" class="form-control" placeholder="Sottotitolo (opzionale)">
+          </div>
+
+          <div class="mb-2">
+            <input id="admin-link-url" type="url" class="form-control" placeholder="URL">
+          </div>
+
+          <div class="mb-2" id="admin-link-platform-wrapper">
+            <label for="admin-link-platform" class="form-label small text-muted">Scegli social</label>
+            <select id="admin-link-platform" class="form-select">
+              <option value="" selected>Seleziona piattaforma</option>
+              <option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option>
+              <option value="facebook">Facebook</option>
+              <option value="youtube">YouTube</option>
+              <option value="spotify">Spotify</option>
+              <option value="altro">Altro</option>
+            </select>
+          </div>
+
+          <input id="admin-link-icon" type="hidden">
+
+          <div class="mb-2">
+            <label for="admin-link-icon-file" class="form-label small text-muted">Icona personalizzata (opzionale)</label>
+            <input id="admin-link-icon-file" type="file" class="form-control" accept="image/png,image/jpeg">
+            <div id="admin-link-icon-preview" class="admin-link-icon-preview mt-2"></div>
+            <div class="form-text">Puoi caricarla anche mentre aggiungi un nuovo link. PNG o JPG, massimo 2 MB.</div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="admin-cancel-link" type="button" class="btn btn-outline-secondary flex-grow-1">Annulla</button>
+            <button id="admin-save-link" type="button" class="btn btn-dark flex-grow-1">Salva</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="admin-network-list"></div>
+    </section>
+
+    <!-- SHOP -->
+    <section id="view-shop" class="admin-view d-none">
+      <h5 class="mb-3">Shop</h5>
+
+      <button id="admin-add-shop-item-btn" class="btn btn-dark w-100 mb-3">
+        + Nuovo libro
+      </button>
+
+      <div id="admin-shop-item-form" class="card mb-3 d-none">
+        <div class="card-body">
+          <h6 id="admin-shop-item-form-title" class="mb-3">Aggiungi nuovo libro</h6>
+
+          <div class="mb-3">
+            <input id="admin-shop-item-title" type="text" class="form-control" placeholder="Titolo libro">
+          </div>
+
+          <div class="mb-3">
+            <textarea id="admin-shop-item-description" class="form-control" rows="4" placeholder="Descrizione breve"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <input id="admin-shop-item-image" type="file" class="form-control" accept="image/*">
+            <div id="admin-shop-item-image-preview" class="mt-2"></div>
+          </div>
+
+          <div class="mb-3">
+            <input id="admin-shop-item-link" type="url" class="form-control" placeholder="Link acquisto / lettura (opzionale)">
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="admin-cancel-shop-item" type="button" class="btn btn-outline-secondary flex-grow-1">Annulla</button>
+            <button id="admin-save-shop-item" type="button" class="btn btn-dark flex-grow-1">Salva</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="admin-shop-items-list" class="d-grid gap-3"></div>
+
+    </section>
+
+  </main>
+
+  <!-- JS MINIMO: cambio vista -->
+  <script>
+    const tabs = document.querySelectorAll('.admin-tab');
+    const views = document.querySelectorAll('.admin-view');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.view;
+
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        views.forEach(view => {
+          view.classList.toggle(
+            'd-none',
+            view.id !== 'view-' + target
+          );
+        });
+      });
+    });
+  </script>
+
+  <script type="module" src="js/admin-auth.js"></script>
+  <script type="module" src="js/admin-profile.js"></script>
+  <script type="module" src="js/admin-post.js"></script>
+  <script type="module" src="js/admin-network.js"></script>
+  <script type="module" src="js/admin-shop.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

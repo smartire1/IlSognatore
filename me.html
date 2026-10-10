@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ilSognatore</title>
+
+  <!-- CSS -->
+  <link href="css/style.css" rel="stylesheet"> 
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra+Display&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="logo-container py-4">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-center">
+        <h1 class="brand-title me-3">Il Sognatore</h1>
+        <a href="index.html">
+          <img src="img/logo.png" alt="Logo" class="brand-logo">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVBAR -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- CONTENUTO -->
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-7 text-center">
+
+        <!-- IMMAGINE PROFILO -->
+        <div class="mb-4">
+          <img
+            id="profile-image"
+            class="img-fluid rounded shadow-sm profile-img"
+            alt="Foto di me">
+        </div>
+
+        <!-- DESCRIZIONE -->
+        <div class="description-container">
+          <h2 class="fw-bold mb-3" style="font-family: 'Garamond', serif;">Chi sono?</h2>
+            <div id="profile-description" class="lead rich-text-content"></div>
+        </div>
+
+        <section class="mt-5 text-start">
+          <h6 class="text-uppercase text-muted mb-2">Premi e riconoscimenti</h6>
+          <div id="award-links"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER (Web Component) -->
+  <site-footer></site-footer>
+  <script type="module" src="js/header.js"></script>
+  <script type="module" src="js/footer.js"></script>
+  <script type="module" src="js/links.js"></script>
+
+  <!-- NAVBAR FETCH -->
+  <script>
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar-placeholder").innerHTML = data;
+      });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous">
+  </script>
+
+  
+  <script type="module">
+    import { supabase } from "./js/supabase-config.js";
+
+    async function loadProfile() {
+      const { data, error } = await supabase
+        .from("profile")
+        .select("image_url, description")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      document.getElementById("profile-image").src = data.image_url;
+      document.getElementById("profile-description").innerHTML = data.description || "";
+    }
+
+    loadProfile();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+/* Applica il colore all'origine di tutto */
+html, body {
+  background-color: #DEE5E3 !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.navbar-brand,
+.nav-link {
+  font-family: "Garamond", serif;
+  font-size: 1.1rem;
+}
+
+p, h5, h4 {
+  font-family: "Garamond", serif;
+  font-size: 1.1rem;
+}
+
+.card-text,
+.rich-text-content {
+  white-space: pre-wrap;
+}
+
+.admin-rich-editor {
+  min-height: 150px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  white-space: pre-wrap;
+}
+
+.admin-rich-editor:empty::before {
+  content: "Descrizione";
+  color: #6c757d;
+}
+
+/* ================= HEADER ================= */
+
+.logo-container {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  background-image: url("/img/bg.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.logo-container img {
+  width: 130px;
+  height: 130px;
+}
+
+.brand-title {
+  font-family: 'Almendra Display', serif;
+  font-size: 4rem;
+  color: #4a3733;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.brand-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Mobile header */
+@media (max-width: 768px) {
+  .brand-title {
+    font-size: 1.6rem;
+    color: #DEE5E3;
+    text-shadow:
+      1px 0 black,
+     -1px 0 black,
+      0 1px black,
+      0 -1px black;
+  }
+}
+
+/* ================= POST IMAGES ================= */
+
+.post-img-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-img {
+  max-width: 100%;
+}
+
+/* ================= NETWORK (PUBBLICO) ================= */
+
+.link-card {
+  border: none;
+  border-radius: 14px;
+  background-color: #ffffff;
+}
+
+.link-card .card-body {
+  padding: 14px 16px;
+}
+
+.link-title {
+  font-weight: 600;
+}
+
+.link-subtitle {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.link-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex: 0 0 28px;
+}
+
+.admin-link-icon-preview-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 4px;
+  background: #ffffff;
+}
+
+.admin-link-icon-preview {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.network-tags {
+  font-family: "Garamond", serif;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+/* ================= FOOTER ================= */
+
+.network-footer {
+  border-top: 1px solid #e0e0e0;
+  background-color: transparent;
+}
+
+.network-footer p {
+  font-family: "Garamond", serif;
+}
+
+/* ================= SHOP BUTTON ================= */
+
+.shop-btn {
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.shop-btn i {
+  line-height: 1;
+}
+
+/* ================= SHOP BOOKS ================= */
+
+.shop-note {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.shop-book-card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.shop-display-card {
+  border: none;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.shop-display-cover-wrap {
+  width: 100%;
+  background-color: #f8f9fa;
+}
+
+.shop-display-cover {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.shop-display-cover-placeholder {
+  width: 100%;
+  min-height: 260px;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Garamond", serif;
+}
+
+.shop-display-body {
+  padding: 18px;
+}
+
+.shop-book-title {
+  font-family: "Garamond", serif;
+  font-size: 1.35rem;
+}
+
+.shop-book-description {
+  margin-bottom: 1rem;
+}
+
+.shop-action-btn {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline: auto;
+}
+
+.shop-paper-box {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 768px) {
+  .shop-display-cover,
+  .shop-display-cover-placeholder {
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
+.shop-book-cover {
+  width: 100%;
+  height: 100%;
+  min-height: 190px;
+  object-fit: cover;
+}
+
+.shop-book-cover-placeholder {
+  width: 100%;
+  min-height: 190px;
+  height: 100%;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Garamond", serif;
+}
+
+.shop-paper-note {
+  font-size: 0.95rem;
+}
+
+.shop-extra-links {
+  display: flex;
+  gap: 8px;
+}
+
+.shop-extra-links img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* ================================================= */
+/* =============== NETWORK ADMIN =================== */
+/* ================================================= */
+
+/* Card admin network */
+.admin-network-card {
+  position: relative;
+  overflow: visible;
+  
+}
+
+/* Layout a 3 colonne */
+.admin-network-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Icona sinistra */
+.admin-network-icon {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Testo centrale */
+.admin-network-content {
+  flex: 1;
+  text-align: center;
+}
+
+/* Azioni destra */
+.admin-network-actions {
+  position: relative;
+}
+
+/* Puntini */
+.admin-more-btn {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 4px;
+}
+
+/* Menu */
+.admin-more-menu {
+  font-size: 1rem;
+  position: absolute;
+  top: 28px;
+  right: 0;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  display: none;
+
+  
+  z-index: 10;
+}
+
+/* VOCI MENU */
+.admin-menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: "Garamond", serif;
+  font-size: 0.95rem;
+  color: #000;
+}
+
+.admin-menu-item:hover {
+  background-color: #f2f2f2;
+}
+
+/* =============== button social, progetti premi =================== */
+
+
+.admin-category-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-category-buttons button {
+  flex: 1;
+  padding: 6px 0;
+  border: none;
+  border-radius: 20px;
+  background: #fff;
+  font-family: "Garamond", serif;
+}
+
+.admin-category-buttons button.active {
+  background: #4a3733;
+  color: #fff;
+}
+
